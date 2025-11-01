@@ -306,6 +306,61 @@ input, button, select, textarea {
     margin-top: 0.75rem;
 }
 
+/* Link de suporte via WhatsApp */
+.support-link {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+    text-align: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.support-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
+}
+
+.support-link a {
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.whatsapp-icon {
+    background-color: #FFFFFF;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.whatsapp-icon svg {
+    width: 28px;
+    height: 28px;
+    fill: #25D366;
+}
+
+.support-link .support-text {
+    font-size: 1.1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.support-link .support-description {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    font-weight: normal;
+    margin-top: 0.25rem;
+}
+
 /* ========================================================================= */
 /*  Estilos para as opções de recuperação de senha (Mantido)                 */
 /* ========================================================================= */
