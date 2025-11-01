@@ -1,6 +1,7 @@
 // server.js
 import express from 'express';
-import fetch from 'node-fetch';
+// Use native global fetch when available (Node 18+). If not, lazily import node-fetch.
+const fetch = globalThis.fetch || ((...args) => import('node-fetch').then(mod => mod.default(...args)));
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
