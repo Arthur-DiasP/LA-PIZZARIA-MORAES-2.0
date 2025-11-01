@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderCartItems();
     }
 
-    async function handleCepInput() {
+    async function handleCepInput(isAutoLoad = false) {
         const cep = cepInput.value.replace(/\D/g, '');
         if (cep.length === 8) {
             try {
@@ -194,13 +194,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!data.erro) {
                     ruaInput.value = data.logradouro;
                     bairroInput.value = data.bairro;
-                    numeroInput.focus();
-                    calculateDeliveryFee(data.cep);
+                    
+                    // Só foca no número se não for carregamento automático
+                    if (!isAutoLoad) {
+                        numeroInput.focus();
+                    }
+                    
+                    await calculateDeliveryFee(data.cep);
                 } else {
-                    alert("CEP não encontrado.");
+                    if (!isAutoLoad) {
+                        alert("CEP não encontrado.");
+                    }
                 }
             } catch (error) {
                 console.error("Erro ao buscar CEP:", error);
+                if (!isAutoLoad) {
+                    alert("Erro ao buscar CEP. Tente novamente.");
+                }
             }
         }
         updateCheckoutButtonState();
@@ -253,12 +263,31 @@ document.addEventListener('DOMContentLoaded', () => {
             const userSnap = await getDoc(userRef);
             if (userSnap.exists() && userSnap.data().address) {
                 const addr = userSnap.data().address;
-                cepInput.value = addr.cep;
-                ruaInput.value = addr.rua;
-                numeroInput.value = addr.numero;
-                bairroInput.value = addr.bairro;
-                complementoInput.value = addr.complemento || '';
-                await calculateDeliveryFee(addr.cep);
+                
+                // Primeiro, verifica se os dados do endereço estão completos
+                if (addr.cep && addr.rua && addr.numero && addr.bairro) {
+                    // Preenche os campos
+                    cepInput.value = addr.cep;
+                    ruaInput.value = addr.rua;
+                    numeroInput.value = addr.numero;
+                    bairroInput.value = addr.bairro;
+                    complementoInput.value = addr.complemento || '';
+
+                    // Força o recálculo da taxa de entrega
+                    await calculateDeliveryFee(addr.cep);
+
+                    // Atualiza o estado do botão de checkout
+                    updateCheckoutButtonState();
+                } else {
+                    // Se o endereço estiver incompleto, busca os dados do CEP novamente
+                    if (addr.cep) {
+                        cepInput.value = addr.cep;
+                        await handleCepInput();
+                        // Após buscar os dados do CEP, preenche o número e complemento se existirem
+                        if (addr.numero) numeroInput.value = addr.numero;
+                        if (addr.complemento) complementoInput.value = addr.complemento;
+                    }
+                }
             }
         } catch (error) {
             console.error("Erro ao carregar endereço do usuário:", error);

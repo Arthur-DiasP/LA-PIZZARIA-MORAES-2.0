@@ -1416,10 +1416,45 @@ input[type="radio"]:checked + .payment-option-card .material-icons { color: var(
 /* ============================================= */
 /*       22. MENSAGEM DE CARRINHO VAZIO          */
 /* ============================================= */
-.empty-cart-message-container { text-align: center; padding: 3rem 1rem; display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100vh - var(--nav-height) - 100px); }
-.empty-cart-message-container .material-icons { font-size: 5rem; color: var(--border-color); margin-bottom: 1rem; }
-.empty-cart-message-container p { font-size: 1.2rem; color: var(--text-muted-color); margin-bottom: 2rem; }
-.empty-cart-actions .btn { padding: 1rem 2rem; font-size: 1.1rem; border-radius: 50px; }
+.empty-cart-message-container { 
+    /* Centraliza o bloco do carrinho vazio em relação à viewport */
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 2rem);
+    max-width: 880px; /* evita esticar demais em telas grandes */
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    z-index: 60; /* acima do conteúdo, abaixo de modais globais */
+}
+.empty-cart-message-container .material-icons { 
+    font-size: 5rem; 
+    color: var(--border-color); 
+    margin-bottom: 1rem;
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-10%, -10%);
+    display: block;
+    margin-left: auto;
+    margin-right:  auto;
+    transition: transform 0.3s ease;
+}
+.empty-cart-message-container p { 
+    font-size: 1.2rem; 
+    color: var(--text-muted-color); 
+    margin-bottom: 2rem; 
+}
+.empty-cart-actions .btn { 
+    padding: 1rem 2rem; 
+    font-size: 1.1rem; 
+    border-radius: 50px; 
+}
 
 /* ============================================= */
 /*       24. ESTILOS PARA O CARRINHO              */
@@ -1482,6 +1517,7 @@ input[type="radio"]:checked + .payment-option-card .material-icons { color: var(
     padding-left: 0.75rem;
     margin-bottom: 0.5rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
 }
 
 .coupon-input-group:focus-within {
@@ -1501,16 +1537,24 @@ input[type="radio"]:checked + .payment-option-card .material-icons { color: var(
     border: none;
     background: transparent;
     padding: 0.75rem;
+    padding-right: 90px; /* Espaço para o botão */
     font-size: 1rem;
     outline: none;
+    width: 100%;
 }
 
 .coupon-input-group .btn {
-    border-radius: 0 6px 6px 0;
-    margin: -1px -1px -1px 0; /* Sobrepõe a borda do container */
-    padding: 0.75rem 1.25rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
     font-size: 0.9rem;
     font-weight: 500;
+    margin-right: 5px;
+    background-color: var(--accent-color);
+    color: white;
 }
 
 .coupon-feedback-message {
